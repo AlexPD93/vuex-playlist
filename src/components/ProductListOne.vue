@@ -9,6 +9,16 @@ export default {
     items() {
       return this.$store.state.items;
     },
+    //Use the computed property here to access the getter in the store
+    saleProducts() {
+      return this.$store.getters.saleProducts;
+    },
+  },
+  methods: {
+    reducePrice: function () {
+      //Have to use commit when referencing a mutation
+      this.$store.commit("reducePrice");
+    },
   },
 };
 </script>
@@ -17,17 +27,18 @@ export default {
   <div id="product-list-one">
     <h2>Product List One</h2>
     <ul>
-      <li v-for="product in products">
+      <li v-for="product in saleProducts">
         <span class="name">{{ product.name }}</span>
-        <span class="price"> {{ product.price }}</span>
+        <span class="price"> £{{ product.price }}</span>
       </li>
     </ul>
     <ul>
       <li v-for="item in items">
         <span class="name">{{ item.name }}</span>
-        <span class="price"> {{ item.price }}</span>
+        <span class="price"> £{{ item.price }}</span>
       </li>
     </ul>
+    <button v-on:click="reducePrice">Reduce Price</button>
   </div>
 </template>
 
