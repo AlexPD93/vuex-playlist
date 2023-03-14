@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   //Create a computed property to get the stored data
   computed: {
@@ -10,15 +12,21 @@ export default {
       return this.$store.state.items;
     },
     //Use the computed property here to access the getter in the store
-    saleProducts() {
-      return this.$store.getters.saleProducts;
-    },
+    // saleProducts() {
+    //   return this.$store.getters.saleProducts;
+    // },
+    //Mapping getters so you don't have to declare them every time
+    ...mapGetters(["saleProducts"]),
   },
   methods: {
-    reducePrice: function () {
-      //Have to use commit when referencing a mutation
-      this.$store.commit("reducePrice");
-    },
+    // reducePrice: function (amount) {
+    //   //Have to use commit when referencing a mutation
+    //   // this.$store.commit("reducePrice");
+    //   //Use dispatch when commiting an action
+    //   this.$store.dispatch("reducePrice", amount);
+    // },
+    //Mapping actions so you don't have to declare them every time
+    ...mapActions(["reducePrice"]),
   },
 };
 </script>
@@ -38,7 +46,7 @@ export default {
         <span class="price"> £{{ item.price }}</span>
       </li>
     </ul>
-    <button v-on:click="reducePrice">Reduce Price</button>
+    <button v-on:click="reducePrice(6)">Reduce Price</button>
   </div>
 </template>
 

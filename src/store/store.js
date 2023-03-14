@@ -56,12 +56,23 @@ export const store = new Vuex.Store({
       return saleProducts;
     },
   },
-  //Better to use mutations when changing data as it can be tracked with Vue developer tools. Better for debugging
+  //Better to use mutations when changing data as it can be tracked with Vue developer tools. Better for debugging.
+  //Don't use mutations with asynchronous code
   mutations: {
-    reducePrice: (state) => {
+    reducePrice: (state, amount) => {
       state.products.forEach((product) => {
-        product.price -= 1;
+        product.price -= amount;
       });
+    },
+  },
+  //Actions are good when wanting to use asynchronous code with a mutation
+  //Context in this reference is basically state
+  //Try to use them even when not using asynch code
+  actions: {
+    reducePrice: (context, amount) => {
+      setTimeout(function () {
+        context.commit("reducePrice", amount);
+      }, 2000);
     },
   },
 });
